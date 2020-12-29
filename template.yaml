@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  bpipe-vpc-endpoint-sniffer
+
+  Sample SAM Template for bpipe-vpc-endpoint-sniffer
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  bpipe_endpt_sniffer_function:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: bpipe_endpt_sniffer/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      MemorySize: 512
+      Events:
+        Probe:
+          Type: CloudWatchEvent # More info about CloudWatchEvent Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#cloudwatchevent
+          Properties:
+            Pattern:
+              source:
+                - aws.ec2
+              detail-type:
+                - EC2 Instance State-change Notification
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          BusinessUnit: "ed-cloud-solutions"
+          Environment: "qa"
+      Policies:
+        - AWSLambdaVPCAccessExecutionRole
+
+Outputs:
+  bpipe_endpt_sniffer_function:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt bpipe_endpt_sniffer_function.Arn
+  bpipe_endpt_sniffer_functionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt bpipe_endpt_sniffer_functionRole.Arn
