@@ -3,17 +3,44 @@ import pytest
 from bpipe_endpt_sniffer.app.endptscanner import BpipeEndpointSniffer
 from bpipe_endpt_sniffer.app.messagebus import BpipeEndPointListWriter
 
-from bpipe_endpt_sniffer.app.model import BpipeEndpoint, BpipeFeature
+from bpipe_endpt_sniffer.app.model import BpipeEndpoint
 from typing import List, Dict
 import json
 import os
 import uuid
-
+import copy
 SAMPLE_SIZE = 100
 class MockBpipeEndpointSniffer :
-    def sniff_bpipe_endpoints(self, bpipeFeature:BpipeFeature)->List[BpipeEndpoint]:
+    def __init__(self) -> None:
+        self.baseField = [
+                    {
+                        'Name': 'vpc-endpoint-type',
+                        'Values': [
+                            'Interface',
+                        ]
+                    },
+                    {
+                        'Name': 'vpc-endpoint-state',
+                        'Values':["available"]
+                    },
+                    {
+                        'Name': 'tag-key',
+                        'Values':["Name"]
+                    }]
+    def sniff_bpipe_endpoints(self, endptTag:Dict)->List[BpipeEndpoint]:
         numberOfEndpoint = SAMPLE_SIZE
         bpipeEndptLst:List[BpipeEndpoint] = []
+
+        sniffTagLst = copy.deepcopy(self.baseField)
+        for key, value in endptTag.items():
+            sniffTagLst.append(
+                {
+                    'Name': f'tag:{key}',
+                    'Values':[ value ]
+                }
+            )
+        assert len(sniffTagLst) == len(self.baseField) + len(endptTag)
+
         for i in range(numberOfEndpoint):
             bpipeEndptLst.append(
                 BpipeEndpoint(

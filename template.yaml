@@ -29,8 +29,6 @@ Resources:
                 - EC2 Instance State-change Notification
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
-          BusinessUnit: "ed-cloud-solutions"
-          Environment: "qa"
           SQS_ARN: "https://sqs.us-east-1.amazonaws.com/191791126208/csa-healthcheck-bpipe-endpoint"
       Policies:
         - AWSLambdaVPCAccessExecutionRole
