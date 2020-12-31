@@ -1,13 +1,14 @@
 import boto3
-from ..endptscanner import BpipeEndpoint, BpipeFeature
+from ..model import BpipeEndpoint, BpipeFeature
 from typing import List, Dict
 import logging
 
 logger = logging.getLogger(__name__)
 
-client = boto3.client('ec2')
-
 class PrivateLinkBpipeEndpointSniffer:
+    def __init__(self) -> None:
+        self.client = boto3.client('ec2')
+
     def sniff_bpipe_endpoints(self, bpipeFeature:BpipeFeature)->List[BpipeEndpoint]:
         logger.debug(bpipeFeature)
         bpipeEndpointLst:List[BpipeEndpoint] = []
@@ -40,7 +41,7 @@ class PrivateLinkBpipeEndpointSniffer:
 
 
     def __sniff_vpcendpoint_helper(self, bpipeFeature:BpipeFeature, dryRun:bool)->Dict:
-        response = client.describe_vpc_endpoints(
+        response = self.client.describe_vpc_endpoints(
                 DryRun=False,
                 Filters=[
                     {
