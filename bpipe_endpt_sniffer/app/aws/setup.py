@@ -15,7 +15,7 @@ def aws_service_factory(queueURL:str) -> AWSAdapter:
     SQSBpipeEndPointListWriter(queueURL)
 
     bpipeEndPointSniffer = PrivateLinkBpipeEndpointSniffer()
-    bpipeEndPointListWriter = None
+    bpipeEndPointListWriter = SQSBpipeEndPointListWriter(queueURL)
     return AWSAdapter(
         bpipeEndPointSniffer, bpipeEndPointListWriter
     )
