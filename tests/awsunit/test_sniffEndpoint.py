@@ -1,23 +1,16 @@
 from bpipe_endpt_sniffer.app.endptscanner import BpipeEndpointSniffer, BpipeFeature
 from bpipe_endpt_sniffer.app.aws.setup import aws_service_factory
+
 import os
 import boto3
 import logging
 boto3.set_stream_logger("boto3", logging.ERROR)
 boto3.set_stream_logger("botocore", logging.ERROR)
 
-os.environ["BusinessUnit"] = "ed-cloud-solutions"
-os.environ["Environment"] = "qa"
-def test_sniff_endpoint(endpoint_sniffer):
-     bpipeFeature = BpipeFeature(
-         BusinessUnit = os.environ["BusinessUnit"],
-         Environment = os.environ["Environment"]
-     )
-     endpointlst = endpoint_sniffer.sniff_bpipe_endpoints(bpipeFeature)
-     assert  len(endpointlst) == 2
+os.environ["SQS_URL"] = "arn:aws:sqs:us-east-1:191791126208:csa-healthcheck-bpipe-endpoint"
 
 def test_aws_service_factory():
-    awsAdapter = aws_service_factory("testURL")
+    awsAdapter = aws_service_factory(os.environ["SQS_URL"])
     bpipeFeature = BpipeFeature(
          BusinessUnit = os.environ["BusinessUnit"],
          Environment = os.environ["Environment"]
@@ -26,3 +19,6 @@ def test_aws_service_factory():
         bpipeFeature
      )
     assert len(endpointLst) == 2
+
+
+
