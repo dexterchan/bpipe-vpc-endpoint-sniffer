@@ -55,19 +55,19 @@ class MockBpipeEndPointListWriter(BpipeEndPointListWriter):
         self.outputBuffer:List[str] = []
         self.batch_size = 10
         
-    
     @staticmethod
-    def __chunkConvert(bpipeLst:List[BpipeEndpoint], pointer:int, n:int) -> List[Dict]:
-        sublst = bpipeLst[pointer: pointer+n]
-        mList = list(map(
-                lambda endpt : {
-                    "Id": str(uuid.uuid4()),
-                    "MessageBody": json.dumps(endpt)
-                }
-                ,sublst
-            ))
-        return (mList, pointer + n)
-
+    def __branchConvert(bpipeLst:List[BpipeEndpoint], n:int):
+        for i in range (0, len(bpipeLst), n):
+            sublst = bpipeLst[i:i+n]
+            mList = list(map(
+                    lambda endpt : {
+                        "Id": str(uuid.uuid4()),
+                        "MessageBody": json.dumps(endpt)
+                    }
+                    ,sublst
+                ))
+            yield mList
+    
     def write_BpipeEndpoint_list_to_messagebus(self, 
         incomingRequest:IncomingRequest, 
         bpipeEndpointLst:List[BpipeEndpoint])->None:
@@ -76,11 +76,7 @@ class MockBpipeEndPointListWriter(BpipeEndPointListWriter):
             bpipeEndpointLst 
             )
         sublst = None
-        pointer = 0
-        while True:
-            sublst, pointer = self.__chunkConvert(newlst, pointer, self.batch_size)
-            if len(sublst) == 0:
-                break
+        for sublst in self.__branchConvert(newlst, self.batch_size):
             for msg in sublst:
                 self.outputBuffer.append(json.dumps(msg))
 

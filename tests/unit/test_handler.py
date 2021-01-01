@@ -29,13 +29,15 @@ def test_lambda_handler(getSampleInput:IncomingRequest, endpoint_sniffer:BpipeEn
     )
     mockbpipeEndPointListWriter = cast (MockBpipeEndPointListWriter, bpipeEndPointListWriter)
     assert len(mockbpipeEndPointListWriter.outputBuffer) == SAMPLE_SIZE
+    cnt = 0
     for eventstr in mockbpipeEndPointListWriter.outputBuffer:
          obj = json.loads(eventstr)
          msg = json.loads (obj["MessageBody"])
          hostname = msg["detail"]["hostname"]
          id = msg["detail"]["id"]
-         assert hostname is not None
-         assert id is not None
+         assert hostname == f"test{cnt}"
+         assert id == f"bpipe{cnt}"
+         cnt = cnt + 1
 
 
 
