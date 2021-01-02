@@ -1,5 +1,6 @@
 {
   "region": "us-east-1",
+  "provider" : "aws",
   "probe": {
     "port": "8194",
     "authAppCredential": "EDC:Canary-QA",

@@ -1,42 +1,25 @@
 import json
+import os
 
-# import requests
+from .app.aws.setup import aws_service_factory
+from .app.endptscanner import BpipeEndpointSniffer
+from .app.messagebus import BpipeEndPointListWriter
 
+SNS_ARN = os.environ["SNS_ARN"]
+
+awsAdapter = aws_service_factory(SNS_ARN)
 
 def lambda_handler(event, context):
-    """Sample pure Lambda function
+    
+    endpointTag = event["sniff_tags"]
+    sniffer:BpipeEndpointSniffer = None
+    writer:BpipeEndPointListWriter = None
+    sniffer, writer = (awsAdapter.bpipeEndPointSniffer,
+                        awsAdapter.bpipeEndPointListWriter)
+    endpointLst =  sniffer.sniff_bpipe_endpoints(
+        endpointTag
+     )
+    
+    writer.write_BpipeEndpoint_list_to_messagebus(event, endpointLst)
 
-    Parameters
-    ----------
-    event: dict, required
-        API Gateway Lambda Proxy Input Format
-
-        Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
-
-    context: object, required
-        Lambda Context runtime methods and attributes
-
-        Context doc: https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
-
-    Returns
-    ------
-    API Gateway Lambda Proxy Output Format: dict
-
-        Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
-    """
-
-    # try:
-    #     ip = requests.get("http://checkip.amazonaws.com/")
-    # except requests.RequestException as e:
-    #     # Send some context about this error to Lambda Logs
-    #     print(e)
-
-    #     raise e
-
-    return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "message": "hello world",
-            # "location": ip.text.replace("\n", "")
-        }),
-    }
+    return endpointLst

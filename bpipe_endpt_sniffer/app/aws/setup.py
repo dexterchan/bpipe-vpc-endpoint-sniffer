@@ -1,7 +1,8 @@
 
 from attr import dataclass
 from .privatelink import PrivateLinkBpipeEndpointSniffer
-from .sqs_messagebus import SQSBpipeEndPointListWriter
+#from .sqs_messagebus import SQSBpipeEndPointListWriter
+from .sns_messagebus import SNSBpipeEndPointListWriter
 from ..endptscanner import BpipeEndpointSniffer
 from ..messagebus import BpipeEndPointListWriter
 
@@ -11,11 +12,9 @@ class AWSAdapter():
     bpipeEndPointListWriter: BpipeEndPointListWriter
 
 
-def aws_service_factory(queueURL:str) -> AWSAdapter:
-    SQSBpipeEndPointListWriter(queueURL)
-
+def aws_service_factory(topicARN:str) -> AWSAdapter:
     bpipeEndPointSniffer = PrivateLinkBpipeEndpointSniffer()
-    bpipeEndPointListWriter = SQSBpipeEndPointListWriter(queueURL)
+    bpipeEndPointListWriter = SNSBpipeEndPointListWriter(topicARN)
     return AWSAdapter(
         bpipeEndPointSniffer, bpipeEndPointListWriter
     )

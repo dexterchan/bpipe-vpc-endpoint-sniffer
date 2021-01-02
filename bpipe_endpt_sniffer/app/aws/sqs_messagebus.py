@@ -37,6 +37,7 @@ class SQSBpipeEndPointListWriter(BpipeEndPointListWriter):
         sublst = None
         
         for sublst in self.__branchConvert(newlst, self.batch_size):
+            logger.info(f"writing to SQS:{json.dumps(sublst)}")
             self.__send_msg_To_SQS_helper(msgList = sublst)
         
     #Sending by chunk to avoid throttling!!!

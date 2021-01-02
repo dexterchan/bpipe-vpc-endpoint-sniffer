@@ -7,6 +7,7 @@ from typing import Optional, Dict
 @dataclass
 class IncomingRequest():
     region: str
+    provider: str
     probe: ProbeSetting
     sniff_tags: Dict
 
@@ -15,6 +16,7 @@ class IncomingRequest():
     def from_request(cls, data:Dict)->IncomingRequest:
         return cls(
             region = data["region"],
+            provider = data["provider"],
             probe=ProbeSetting(**data["probe"]),
             sniff_tags=data["sniff_tags"]
         )
@@ -22,6 +24,7 @@ class IncomingRequest():
     def write_OutputTemplate(self) -> Dict:
         return {
             "region": self.region,
+            "provider": self.provider,
             "detail": self.probe.dict()
         }
 
