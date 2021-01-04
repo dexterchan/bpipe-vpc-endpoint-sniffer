@@ -1,6 +1,6 @@
 
 from attr import dataclass
-from .privatelink import PrivateLinkBpipeEndpointSniffer
+from .privateLink import PrivateLinkBpipeEndpointSniffer
 #from .sqs_messagebus import SQSBpipeEndPointListWriter
 from .sns_messagebus import SNSBpipeEndPointListWriter
 from ..endptscanner import BpipeEndpointSniffer
