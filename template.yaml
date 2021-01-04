@@ -30,7 +30,7 @@ Resources:
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
           SQS_URL: "https://sqs.us-east-1.amazonaws.com/191791126208/csa-healthcheck-bpipe-endpoint"
-          SNS_ARN: "arn:aws:sns:us-east-1:191791126208:canary-healthcheck-bpipe-endpoint"
+          SNS_ARN: "arn:aws:sns:us-east-1:192592784707:canary-healthcheck-bpipe-endpoint"
       Policies:
         - AWSLambdaVPCAccessExecutionRole
         - Statement:

@@ -45,7 +45,7 @@ class SNSBpipeEndPointListWriter(BpipeEndPointListWriter):
                 for msg in sublst:
                     self.__send_msg_To_SNS_helper(msg)
             except Exception as e:
-                logging.error(e)
+                logger.error(e)
                 raise e
             time.sleep(self.rest_time_second)
     

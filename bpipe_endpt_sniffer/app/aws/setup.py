@@ -5,6 +5,10 @@ from .privateLink import PrivateLinkBpipeEndpointSniffer
 from .sns_messagebus import SNSBpipeEndPointListWriter
 from ..endptscanner import BpipeEndpointSniffer
 from ..messagebus import BpipeEndPointListWriter
+import boto3
+import logging
+boto3.set_stream_logger("boto3", logging.ERROR)
+boto3.set_stream_logger("botocore", logging.ERROR)
 
 @dataclass
 class AWSAdapter():

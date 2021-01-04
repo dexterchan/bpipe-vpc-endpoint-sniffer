@@ -28,7 +28,7 @@ class PrivateLinkBpipeEndpointSniffer:
     def sniff_bpipe_endpoints(self, bpipeTags:Dict)->List[BpipeEndpoint]:
         #Prepare sniffer scope
         sniff_scope_list= self.__fill_in_sniffer_scope(bpipeTags)
-        logging.info(f"Sniff scope:{json.dumps(sniff_scope_list)}")
+        logger.info(f"Sniff scope:{json.dumps(sniff_scope_list)}")
         bpipeEndpointLst:List[BpipeEndpoint] = []
 
         try:
@@ -38,13 +38,13 @@ class PrivateLinkBpipeEndpointSniffer:
             if "VpcEndpoints" not in response:
                 raise Exception("Not vpc endpoint found!")
             vpcendpointlst = response["VpcEndpoints"]
-            logging.info(f"Found {len(vpcendpointlst)} active bpipe endpoints")
+            logger.info(f"Found {len(vpcendpointlst)} active bpipe endpoints")
 
             for endpt in vpcendpointlst:
                 hostname = endpt["DnsEntries"][0]["DnsName"]
                 nametaglst = list(filter( lambda tag: tag["Key"] == "Name",endpt["Tags"]))
                 name = nametaglst[0]["Value"]
-                logging.info(f"{name}:{hostname}")
+                logger.info(f"{name}:{hostname}")
                 bpipeEndpointLst.append(
                     BpipeEndpoint(
                         hostname = hostname,

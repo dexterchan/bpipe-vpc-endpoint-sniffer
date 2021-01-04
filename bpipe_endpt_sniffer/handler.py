@@ -4,6 +4,7 @@ import os
 from app.aws.setup import aws_service_factory
 from app.endptscanner import BpipeEndpointSniffer
 from app.messagebus import BpipeEndPointListWriter
+from app.model import BpipeEndpoint
 from app.setting import IncomingRequest
 from app.logging import get_logger
 SNS_ARN = os.environ["SNS_ARN"]
@@ -23,7 +24,11 @@ def lambda_handler(event, context):
     endpointLst = sniffer.sniff_bpipe_endpoints(
         endpointTag
     )
-    logger.info(f"Result:{str(endpointLst)}")
+
+    output_lst = []
+    for endPt in endpointLst:
+        output_lst.append(endPt.dict())
+    logger.info(f"Endpts:{str(output_lst)}")
     writer.write_bpipeendpoint_list_to_messagebus(incoming_request, endpointLst)
 
-    return endpointLst
+    return output_lst
