@@ -1,9 +1,9 @@
 import json
 import os
 
-from .app.aws.setup import aws_service_factory
-from .app.endptscanner import BpipeEndpointSniffer
-from .app.messagebus import BpipeEndPointListWriter
+from app.aws.setup import aws_service_factory
+from app.endptscanner import BpipeEndpointSniffer
+from app.messagebus import BpipeEndPointListWriter
 
 SNS_ARN = os.environ["SNS_ARN"]
 
@@ -20,6 +20,6 @@ def lambda_handler(event, context):
         endpointTag
     )
 
-    writer.write_BpipeEndpoint_list_to_messagebus(event, endpointLst)
+    writer.write_bpipeendpoint_list_to_messagebus(event, endpointLst)
 
     return endpointLst

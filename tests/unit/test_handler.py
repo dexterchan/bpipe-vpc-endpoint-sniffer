@@ -23,7 +23,7 @@ def test_lambda_handler(getSampleInput:IncomingRequest, endpoint_sniffer:BpipeEn
     endpointTag = getSampleInput.sniff_tags
     endpointlst = endpoint_sniffer.sniff_bpipe_endpoints(endpointTag)
 
-    bpipeEndPointListWriter.write_BpipeEndpoint_list_to_messagebus(
+    bpipeEndPointListWriter.write_bpipeendpoint_list_to_messagebus(
          incomingRequest= getSampleInput,
          bpipeEndpointLst= endpointlst
     )

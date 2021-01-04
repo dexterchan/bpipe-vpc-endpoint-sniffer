@@ -68,10 +68,10 @@ class MockBpipeEndPointListWriter(BpipeEndPointListWriter):
                 ))
             yield mList
     
-    def write_BpipeEndpoint_list_to_messagebus(self, 
-        incomingRequest:IncomingRequest, 
-        bpipeEndpointLst:List[BpipeEndpoint])->None:
-        newlst = super().convertFormat(
+    def write_bpipeendpoint_list_to_messagebus(self,
+                                               incomingRequest:IncomingRequest,
+                                               bpipeEndpointLst:List[BpipeEndpoint])->None:
+        newlst = super().convert_format(
             incomingRequest ,
             bpipeEndpointLst 
             )

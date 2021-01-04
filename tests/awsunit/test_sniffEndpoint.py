@@ -20,6 +20,6 @@ def test_sniff_bpipe_endpoints(getSampleInput:IncomingRequest):
         endpointTag
      )
     assert len(endpointLst) == 2
-    writer.write_BpipeEndpoint_list_to_messagebus(getSampleInput, endpointLst)
+    writer.write_bpipeendpoint_list_to_messagebus(getSampleInput, endpointLst)
     
 

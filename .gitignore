@@ -242,5 +242,5 @@ $RECYCLE.BIN/
 */build/*
 .venv
 .aws-sam
-
+.idea
 # End of https://www.gitignore.io/api/osx,linux,python,windows,pycharm,visualstudiocode

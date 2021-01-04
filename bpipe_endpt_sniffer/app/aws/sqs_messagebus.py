@@ -28,9 +28,9 @@ class SQSBpipeEndPointListWriter(BpipeEndPointListWriter):
                 ))
             yield mList
 
-    def write_BpipeEndpoint_list_to_messagebus(self, incomingRequest:IncomingRequest,bpipeEndpointLst:List[BpipeEndpoint])->None:
+    def write_bpipeendpoint_list_to_messagebus(self, incomingRequest:IncomingRequest, bpipeEndpointLst:List[BpipeEndpoint])->None:
         #Prepare the format first
-        newlst = super().convertFormat(
+        newlst = super().convert_format(
             incomingRequest = incomingRequest,
             bpipeEndpointLst = bpipeEndpointLst
             )
@@ -38,11 +38,11 @@ class SQSBpipeEndPointListWriter(BpipeEndPointListWriter):
         
         for sublst in self.__branchConvert(newlst, self.batch_size):
             logger.info(f"writing to SQS:{json.dumps(sublst)}")
-            self.__send_msg_To_SQS_helper(msgList = sublst)
+            self.__send_msg_To_sqs_helper(msgList=sublst)
         
     #Sending by chunk to avoid throttling!!!
-    def __send_msg_To_SQS_helper(self, msgList: List[Dict]):
+    def __send_msg_To_sqs_helper(self, msgList: List[Dict]):
         self.client.send_message_batch(
-            QueueUrl = self.sqsURL,
-            Entries = msgList
+            QueueUrl=self.sqsURL,
+            Entries=msgList
         )

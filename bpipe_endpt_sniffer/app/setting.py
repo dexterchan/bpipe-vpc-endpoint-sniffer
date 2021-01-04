@@ -1,5 +1,5 @@
 from __future__ import annotations
-from attr import dataclass
+from dataclasses import dataclass
 
 from pydantic import BaseSettings, BaseSettings, Field
 from typing import Optional, Dict
@@ -11,17 +11,16 @@ class IncomingRequest():
     probe: ProbeSetting
     sniff_tags: Dict
 
-    
     @classmethod
-    def from_request(cls, data:Dict)->IncomingRequest:
+    def from_request(cls, data: Dict) -> IncomingRequest:
         return cls(
-            region = data["region"],
-            provider = data["provider"],
+            region=data["region"],
+            provider=data["provider"],
             probe=ProbeSetting(**data["probe"]),
             sniff_tags=data["sniff_tags"]
         )
 
-    def write_OutputTemplate(self) -> Dict:
+    def write_output_template(self) -> Dict:
         return {
             "region": self.region,
             "provider": self.provider,

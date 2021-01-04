@@ -20,6 +20,6 @@ def lambda_handler(event, context):
         endpointTag
      )
     
-    writer.write_BpipeEndpoint_list_to_messagebus(event, endpointLst)
+    writer.write_bpipeendpoint_list_to_messagebus(event, endpointLst)
 
     return endpointLst

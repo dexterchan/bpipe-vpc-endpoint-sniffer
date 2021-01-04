@@ -21,7 +21,7 @@ class SNSBpipeEndPointListWriter(BpipeEndPointListWriter):
         self.batch_size = 50
         self.rest_time_second = 0.5
     @staticmethod
-    def __branchConvert(bpipeLst:List[BpipeEndpoint], n:int):
+    def __branch_convert(bpipeLst:List[BpipeEndpoint], n:int):
         for i in range (0, len(bpipeLst), n):
             sublst = bpipeLst[i:i+n]
             mList = list(map(
@@ -32,15 +32,15 @@ class SNSBpipeEndPointListWriter(BpipeEndPointListWriter):
                 ))
             yield mList
 
-    def write_BpipeEndpoint_list_to_messagebus(self, incomingRequest:IncomingRequest,bpipeEndpointLst:List[BpipeEndpoint])->None:
+    def write_bpipeendpoint_list_to_messagebus(self, incomingRequest:IncomingRequest, bpipeEndpointLst:List[BpipeEndpoint])->None:
         #Prepare the format first
-        newlst = super().convertFormat(
+        newlst = super().convert_format(
             incomingRequest = incomingRequest,
             bpipeEndpointLst = bpipeEndpointLst
             )
         sublst = None
         
-        for sublst in self.__branchConvert(newlst, self.batch_size):
+        for sublst in self.__branch_convert(newlst, self.batch_size):
             try:
                 for msg in sublst:
                     self.__send_msg_To_SNS_helper(msg)
