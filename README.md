@@ -73,6 +73,7 @@ You can find more information and examples about filtering Lambda function logs 
 Tests are defined in the `tests` folder in this project. Use PIP to install the [pytest](https://docs.pytest.org/en/latest/) and run unit tests.
 
 ```bash
+export PYTHONPATH=$(pwd)/bpipe_endpt_sniffer
 bpipe-vpc-endpoint-sniffer$ pip install pytest pytest-mock --user
 bpipe-vpc-endpoint-sniffer$ python -m pytest tests/ -v
 ```

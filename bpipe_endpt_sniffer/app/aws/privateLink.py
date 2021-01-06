@@ -27,12 +27,12 @@ class PrivateLinkBpipeEndpointSniffer:
 
     def sniff_bpipe_endpoints(self, bpipeTags:Dict)->List[BpipeEndpoint]:
         #Prepare sniffer scope
-        sniff_scope_list= self.__fill_in_sniffer_scope(bpipeTags)
+        sniff_scope_list= self._fill_in_sniffer_scope(bpipeTags)
         logger.info(f"Sniff scope:{json.dumps(sniff_scope_list)}")
         bpipeEndpointLst:List[BpipeEndpoint] = []
 
         try:
-            response = self.__sniff_vpcendpoint_helper(sniff_scope_list, False)
+            response = self._sniff_vpcendpoint_helper(sniff_scope_list)
             #Get DNS entries
             #Get ID
             if "VpcEndpoints" not in response:
@@ -42,7 +42,7 @@ class PrivateLinkBpipeEndpointSniffer:
 
             for endpt in vpcendpointlst:
                 hostname = endpt["DnsEntries"][0]["DnsName"]
-                nametaglst = list(filter( lambda tag: tag["Key"] == "Name",endpt["Tags"]))
+                nametaglst = [ tag for tag in endpt["Tags"] if tag["Key"] == "Name"]
                 name = nametaglst[0]["Value"]
                 logger.info(f"{name}:{hostname}")
                 bpipeEndpointLst.append(
@@ -51,13 +51,11 @@ class PrivateLinkBpipeEndpointSniffer:
                         bpipe_id = name
                     )
                 )
-
-
         except Exception as err:
             logger.error(err)
         return bpipeEndpointLst
 
-    def __fill_in_sniffer_scope(self, sniffTags:Dict) -> List[Dict]:
+    def _fill_in_sniffer_scope(self, sniffTags:Dict) -> List[Dict]:
         sniffTagLst = copy.deepcopy(self.baseField)
         for key, value in sniffTags.items():
             sniffTagLst.append(
@@ -67,9 +65,9 @@ class PrivateLinkBpipeEndpointSniffer:
                 }
             )
         return sniffTagLst
-    def __sniff_vpcendpoint_helper(self, sniff_scope:List[Dict], dryRun:bool)->Dict:
+    def _sniff_vpcendpoint_helper(self, sniff_scope:List[Dict], dryRun:bool = False)->Dict:
         response = self.client.describe_vpc_endpoints(
-                DryRun = False,
+                DryRun = dryRun,
                 Filters = sniff_scope
             )
         return response

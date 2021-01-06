@@ -16,32 +16,29 @@ class SQSBpipeEndPointListWriter(BpipeEndPointListWriter):
         self.batch_size = 10
 
     @staticmethod
-    def __branchConvert(bpipeLst:List[BpipeEndpoint], n:int):
+    def _branchConvert(bpipeLst:List[BpipeEndpoint], n:int):
         for i in range (0, len(bpipeLst), n):
             sublst = bpipeLst[i:i+n]
-            mList = list(map(
-                    lambda endpt : {
+            mList = [{
                         "Id": str(uuid.uuid4()),
                         "MessageBody": json.dumps(endpt)
-                    }
-                    ,sublst
-                ))
+                    } for endpt in sublst]
             yield mList
 
     def write_bpipeendpoint_list_to_messagebus(self, incomingRequest:IncomingRequest, bpipeEndpointLst:List[BpipeEndpoint])->None:
         #Prepare the format first
-        newlst = super().convert_format(
+        newlst = self.convert_format(
             incomingRequest = incomingRequest,
             bpipeEndpointLst = bpipeEndpointLst
             )
         sublst = None
         
-        for sublst in self.__branchConvert(newlst, self.batch_size):
+        for sublst in self._branchConvert(newlst, self.batch_size):
             logger.info(f"writing to SQS:{json.dumps(sublst)}")
-            self.__send_msg_To_sqs_helper(msgList=sublst)
+            self._send_msg_To_sqs_helper(msgList=sublst)
         
     #Sending by chunk to avoid throttling!!!
-    def __send_msg_To_sqs_helper(self, msgList: List[Dict]):
+    def _send_msg_To_sqs_helper(self, msgList: List[Dict]):
         self.client.send_message_batch(
             QueueUrl=self.sqsURL,
             Entries=msgList
