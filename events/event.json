@@ -6,8 +6,7 @@
     "authAppCredential": "EDC:Canary-QA",
     "testTicker": "BBHBEAT Index",
     "expectedTickers": "58",
-    "max_run_seconds": "60",
-    "logBucket": "bbg-qa-ent-logs"
+    "max_run_seconds": "60"
   },
   "sniff_tags":{
     "BusinessUnit": "ed-cloud-solutions",

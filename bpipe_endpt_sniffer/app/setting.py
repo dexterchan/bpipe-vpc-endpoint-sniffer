@@ -10,7 +10,6 @@ class ProbeSetting(BaseSettings):
     testTicker: str
     expectedTickers: int
     max_run_seconds: int
-    logBucket: Optional[str] = None
 
     @classmethod
     def from_request(cls, **detail) -> ProbeSetting:
