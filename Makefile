@@ -21,8 +21,8 @@ package-%:
 		popd > /dev/null
 
 upload:
-	test $(s3-prefix) || (echo "ERROR: s3-prefix required"; exit 1)
-	aws --profile blpsaml --region us-east-1 s3  cp --recursive .aws-sam/packages/ $(s3-prefix)
+	test $(s3prefix) || (echo "ERROR: s3-prefix required"; exit 1)
+	aws --profile blpsaml --region us-east-1 s3  cp --recursive .aws-sam/packages/ $(s3prefix)
 
 typecheck:
 	mypy bpipe_endpt_discover/app/
