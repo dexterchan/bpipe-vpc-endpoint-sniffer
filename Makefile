@@ -12,7 +12,7 @@ build: clean
 	sam build -u -p
 	mkdir -p .aws-sam/packages
 
-package: build package-BPipeEndPointSnifferFunction
+package: build package-BPipeEndPointDiscoverFunction
 
 package-%:
 	pushd .aws-sam/build/$* > /dev/null \
@@ -25,7 +25,7 @@ upload:
 	aws --profile blpsaml --region us-east-1 s3  cp --recursive .aws-sam/packages/ $(s3-prefix)
 
 typecheck:
-	mypy bpipe_endpt_sniffer/app/
+	mypy bpipe_endpt_discover/app/
 
 test:
 	pytest $(path)

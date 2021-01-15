@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import List, Protocol, Dict
 from .model import BpipeEndpoint
 
-class BpipeEndpointSniffer(Protocol):
+class BpipeEndpointDiscover(Protocol):
     """
-        Sniff all bpipe endpoint in an environment for next processing
+        Discover all bpipe endpoint in an environment for next processing
     """
-    def sniff_bpipe_endpoints(self, bpipeTags:Dict)->List[BpipeEndpoint]:
+    def discover_bpipe_endpoints(self, bpipeTags:Dict)->List[BpipeEndpoint]:
         ...

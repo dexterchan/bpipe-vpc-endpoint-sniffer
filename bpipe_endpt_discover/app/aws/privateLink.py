@@ -6,7 +6,7 @@ import copy
 import json
 logger = logging.getLogger(__name__)
 
-class PrivateLinkBpipeEndpointSniffer:
+class PrivateLinkBpipeEndpointDiscover:
     def __init__(self) -> None:
         self.client = boto3.client('ec2')
         self.baseField = [
@@ -25,14 +25,14 @@ class PrivateLinkBpipeEndpointSniffer:
                         'Values':["Name"]
                     }]
 
-    def sniff_bpipe_endpoints(self, bpipeTags:Dict)->List[BpipeEndpoint]:
-        #Prepare sniffer scope
-        sniff_scope_list= self._fill_in_sniffer_scope(bpipeTags)
-        logger.info(f"Sniff scope:{json.dumps(sniff_scope_list)}")
+    def discover_bpipe_endpoints(self, bpipeTags:Dict)->List[BpipeEndpoint]:
+        #Prepare discover scope
+        discover_scope_list= self._fill_in_discover_scope(bpipeTags)
+        logger.info(f"Discover scope:{json.dumps(discover_scope_list)}")
         bpipeEndpointLst:List[BpipeEndpoint] = []
 
         try:
-            response = self._sniff_vpcendpoint_helper(sniff_scope_list)
+            response = self._discover_vpcendpoint_helper(discover_scope_list)
             #Get DNS entries
             #Get ID
             if "VpcEndpoints" not in response:
@@ -55,19 +55,19 @@ class PrivateLinkBpipeEndpointSniffer:
             logger.error(err)
         return bpipeEndpointLst
 
-    def _fill_in_sniffer_scope(self, sniffTags:Dict) -> List[Dict]:
-        sniffTagLst = copy.deepcopy(self.baseField)
-        for key, value in sniffTags.items():
-            sniffTagLst.append(
+    def _fill_in_discover_scope(self, discoverTags:Dict) -> List[Dict]:
+        discoverTagLst = copy.deepcopy(self.baseField)
+        for key, value in discoverTags.items():
+            discoverTagLst.append(
                 {
                     'Name': f'tag:{key}',
                     'Values':[ value ]
                 }
             )
-        return sniffTagLst
-    def _sniff_vpcendpoint_helper(self, sniff_scope:List[Dict], dryRun:bool = False)->Dict:
+        return discoverTagLst
+    def _discover_vpcendpoint_helper(self, discover_scope:List[Dict], dryRun:bool = False)->Dict:
         response = self.client.describe_vpc_endpoints(
                 DryRun = dryRun,
-                Filters = sniff_scope
+                Filters = discover_scope
             )
         return response

@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from bpipe_endpt_sniffer import app
+from bpipe_endpt_discover import app
 
 
 @pytest.fixture()
