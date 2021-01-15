@@ -1,3 +1,9 @@
 {
-    "python.pythonPath": "/Users/wchan436/sandbox/Python/bpipe-vpc-endpoint-sniffer/.venv/bin/python3"
+    "python.pythonPath": "/Users/wchan436/sandbox/Python/bpipe-vpc-endpoint-discover/.venv/bin/python3",
+    "python.autoComplete.extraPaths": [
+        "/Users/wchan436/sandbox/Python/bpipe-vpc-endpoint-discover/bpipe_endpt_discover/"
+        ],
+    "python.analysis.extraPaths": [
+            "/Users/wchan436/sandbox/Python/bpipe-vpc-endpoint-discover/bpipe_endpt_discover/"
+        ]
 }
