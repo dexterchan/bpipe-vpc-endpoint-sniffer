@@ -2,8 +2,8 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-stack_name = "bpipe-vpc-endpt-sniffer"
+stack_name = "bpipe-vpc-endpt-discover"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-l0a5t4pvaq5f"
-s3_prefix = "bpipe-vpc-endpt-sniffer"
+s3_prefix = "bpipe-vpc-endpt-discover"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"

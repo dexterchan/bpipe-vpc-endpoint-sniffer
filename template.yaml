@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  bpipe-vpc-endpoint-sniffer
+  bpipe-vpc-endpoint-discover
 
-  Sample SAM Template for bpipe-vpc-endpoint-sniffer
+  Sample SAM Template for bpipe-vpc-endpoint-discover
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -11,10 +11,10 @@ Globals:
     Timeout: 360
 
 Resources:
-  BPipeEndPointSnifferFunction:
+  BPipeEndPointDiscoverFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: bpipe_endpt_sniffer/
+      CodeUri: bpipe_endpt_discover/
       Handler: handler.lambda_handler
       Runtime: python3.8
       MemorySize: 512
@@ -53,9 +53,9 @@ Resources:
               Resource: "arn:aws:sqs:*:*:bpipe*"
 
 Outputs:
-  BPipeEndPointSnifferFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt BPipeEndPointSnifferFunction.Arn
-  BPipeEndPointSnifferFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt BPipeEndPointSnifferFunctionRole.Arn
+  BPipeEndPointDiscoverFunction:
+    Description: "Discover endpoint Lambda Function ARN"
+    Value: !GetAtt BPipeEndPointDiscoverFunction.Arn
+  BPipeEndPointDiscoverFunctionIamRole:
+    Description: "Implicit IAM Role created for Discover endpoint function"
+    Value: !GetAtt BPipeEndPointDiscoverFunctionRole.Arn

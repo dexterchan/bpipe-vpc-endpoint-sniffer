@@ -19,7 +19,7 @@ class IncomingRequest(BaseModel):
     region: str
     provider: str
     probe: ProbeSetting
-    sniff_tags: dict
+    discover_tags: dict
 
     @classmethod
     def from_request(cls, data: dict) -> IncomingRequest:
@@ -27,7 +27,7 @@ class IncomingRequest(BaseModel):
             region=data["region"],
             provider=data["provider"],
             probe=ProbeSetting(**data["probe"]),
-            sniff_tags=data["sniff_tags"]
+            discover_tags=data["discover_tags"]
         )
 
     def write_output_template(self) -> dict:

@@ -6,7 +6,7 @@ from .setting import IncomingRequest
 import copy
 class BpipeEndPointListWriter(ABC):
     """
-        Sniff all bpipe endpoint in an environment for next processing
+        Discover all bpipe endpoint in an environment for next processing
     """
     def _convert_dict(self, template:Dict, bpipeEndpt: BpipeEndpoint)->Dict:
         dataDict = copy.deepcopy(template)

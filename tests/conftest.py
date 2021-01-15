@@ -1,16 +1,16 @@
-from bpipe_endpt_sniffer.app.setting import IncomingRequest,  ProbeSetting
+from bpipe_endpt_discover.app.setting import IncomingRequest,  ProbeSetting
 import pytest
-from bpipe_endpt_sniffer.app.endptscanner import BpipeEndpointSniffer
-from bpipe_endpt_sniffer.app.messagebus import BpipeEndPointListWriter
+from bpipe_endpt_discover.app.endptscanner import BpipeEndpointDiscover
+from bpipe_endpt_discover.app.messagebus import BpipeEndPointListWriter
 
-from bpipe_endpt_sniffer.app.model import BpipeEndpoint
+from bpipe_endpt_discover.app.model import BpipeEndpoint
 from typing import List, Dict
 import json
 import os
 import uuid
 import copy
 SAMPLE_SIZE = 100
-class MockBpipeEndpointSniffer :
+class MockBpipeEndpointDiscover :
     def __init__(self) -> None:
         self.baseField = [
                     {
@@ -27,19 +27,19 @@ class MockBpipeEndpointSniffer :
                         'Name': 'tag-key',
                         'Values':["Name"]
                     }]
-    def sniff_bpipe_endpoints(self, endptTag:Dict)->List[BpipeEndpoint]:
+    def discover_bpipe_endpoints(self, endptTag:Dict)->List[BpipeEndpoint]:
         numberOfEndpoint = SAMPLE_SIZE
         bpipeEndptLst:List[BpipeEndpoint] = []
 
-        sniffTagLst = copy.deepcopy(self.baseField)
+        discoverTagLst = copy.deepcopy(self.baseField)
         for key, value in endptTag.items():
-            sniffTagLst.append(
+            discoverTagLst.append(
                 {
                     'Name': f'tag:{key}',
                     'Values':[ value ]
                 }
             )
-        assert len(sniffTagLst) == len(self.baseField) + len(endptTag)
+        assert len(discoverTagLst) == len(self.baseField) + len(endptTag)
 
         for i in range(numberOfEndpoint):
             bpipeEndptLst.append(
@@ -81,8 +81,8 @@ class MockBpipeEndPointListWriter(BpipeEndPointListWriter):
                 self.outputBuffer.append(json.dumps(msg))
 
 @pytest.fixture
-def endpoint_sniffer() -> BpipeEndpointSniffer:
-    return MockBpipeEndpointSniffer()
+def endpoint_discover() -> BpipeEndpointDiscover:
+    return MockBpipeEndpointDiscover()
 
 @pytest.fixture
 def bpipeEndPointListWriter() -> BpipeEndPointListWriter:

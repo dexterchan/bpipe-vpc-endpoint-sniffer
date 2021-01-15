@@ -8,7 +8,7 @@
     "expectedTickers": "58",
     "max_run_seconds": "60"
   },
-  "sniff_tags":{
+  "discover_tags":{
     "BusinessUnit": "ed-cloud-solutions",
     "Environment": "qa"
   }

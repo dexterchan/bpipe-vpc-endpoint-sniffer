@@ -2,7 +2,7 @@ import json
 import os
 
 from app.aws.setup import aws_service_factory
-from app.endptscanner import BpipeEndpointSniffer
+from app.endptscanner import BpipeEndpointDiscover
 from app.messagebus import BpipeEndPointListWriter
 from app.model import BpipeEndpoint
 from app.setting import IncomingRequest
@@ -16,10 +16,10 @@ awsAdapter = aws_service_factory(SNS_ARN)
 def lambda_handler(event, context):
     incoming_request = IncomingRequest.from_request(event)
 
-    endpointTag = event["sniff_tags"]
-    sniffer, writer = (awsAdapter.bpipeEndPointSniffer,
+    endpointTag = event["discover_tags"]
+    discover, writer = (awsAdapter.bpipeEndPointDiscover,
                        awsAdapter.bpipeEndPointListWriter)
-    endpointLst = sniffer.sniff_bpipe_endpoints(
+    endpointLst = discover.discover_bpipe_endpoints(
         endpointTag
     )
 
