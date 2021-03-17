@@ -6,7 +6,8 @@ from .setting import IncomingRequest
 import copy
 class BpipeEndPointListWriter(ABC):
     """
-        Discover all bpipe endpoint in an environment for next processing
+        Interface to massage endpoint info to Bpipe Canary readable format
+        also, it writes into data bus to trigger Bpipe canary lambda
     """
     def _convert_dict(self, template:Dict, bpipeEndpt: BpipeEndpoint)->Dict:
         dataDict = copy.deepcopy(template)
