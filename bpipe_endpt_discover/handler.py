@@ -23,7 +23,8 @@ def lambda_handler(event, context):
     3) publish the bpipe canary input event to SNS to trigger Bpipe Canary lambda
 
     Args:
-        event: the input event from EventBridge scheduler.
+        event: the input event from AWS EventBridge scheduler.
+        Format was inherited from AWS Event
 
     Returns:
         List of dict of BpipeEndpoint

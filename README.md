@@ -1,7 +1,7 @@
 # bpipe-vpc-endpoint-discover
 
 bpipe-vpc-endpoint-discover is a small compute function searching all existing interface endpoints in an account.  
-In a regulatar time internval, Eventbridge triggers this endpoint-discover to search for all eligible vpc endpoint for health checking by bpipe-canary lambda.
+AWS: In a regulatar time internval, Eventbridge triggers this endpoint-discover to search for all eligible vpc endpoint for health checking by bpipe-canary lambda.
 
 It will filter the interface endpoints by tags specified in Eventbridge input event. 
 The workflow is documented in [Architecture diagram](https://cms.prod.bloomberg.com/team/display/~calbert3/CSA+-+B-PIPE+Canary+implementation)  
@@ -27,6 +27,16 @@ The input also specify the bpipe Canary input template in "probe" field.
 After finding the interface endpoints, it will insert vpc address and "Name" tag values into the "probe".  
 Finally it boostraps the input event of bpipe canary and publish into SNS. SNS will trigger Bpipe Canary lambda for health checking.  
 
+```
+{
+            "region": <region>,
+            "provider": <cloud vendor>,
+            "detail": {
+                <fields derived from input event json message field probe>,
+                <fields from bpipe endpoint: hostname and name tag of vpc endpoint>
+            }
+}
+```
 
 
 ## Build with sam
@@ -57,7 +67,7 @@ Tests are defined in the `tests` folder in this project. Use PIP to install the 
 ```bash
 export PYTHONPATH=$(pwd)/bpipe_endpt_discover
 bpipe-vpc-endpoint-discover$ pip install pytest pytest-mock --user
-bpipe-vpc-endpoint-discover$ python -m pytest tests/ -v
+bpipe-vpc-endpoint-discover$ python -m pytest tests/ -s
 ```
 
 

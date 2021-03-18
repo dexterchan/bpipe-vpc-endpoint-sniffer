@@ -56,7 +56,7 @@ class MockBpipeEndPointListWriter(BpipeEndPointListWriter):
         self.batch_size = 10
         
     @staticmethod
-    def __branchConvert(bpipeLst:List[BpipeEndpoint], n:int):
+    def _batch_convert(bpipeLst:List[Dict], n:int):
         for i in range (0, len(bpipeLst), n):
             sublst = bpipeLst[i:i+n]
             mList = list(map(
@@ -76,7 +76,7 @@ class MockBpipeEndPointListWriter(BpipeEndPointListWriter):
             bpipeEndpointLst 
             )
         sublst = None
-        for sublst in self.__branchConvert(newlst, self.batch_size):
+        for sublst in self._batch_convert(newlst, self.batch_size):
             for msg in sublst:
                 self.outputBuffer.append(json.dumps(msg))
 

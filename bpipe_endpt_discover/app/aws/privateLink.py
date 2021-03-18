@@ -6,6 +6,10 @@ import copy
 import json
 logger = logging.getLogger(__name__)
 
+"""
+    AWS Implementation class of BpipeEndpointDiscover
+    Scan all eligible interface VPC endpoint specified by given tag
+"""
 class PrivateLinkBpipeEndpointDiscover:
     def __init__(self) -> None:
         self.client = boto3.client('ec2')
@@ -56,6 +60,10 @@ class PrivateLinkBpipeEndpointDiscover:
         return bpipeEndpointLst
 
     def _fill_in_discover_scope(self, discoverTags:Dict) -> List[Dict]:
+        """
+            extract the tag values to feed AWS API for scanning interface vpc endpoint
+            massage the format to fit AWS API
+        """
         discoverTagLst = copy.deepcopy(self.baseField)
         for key, value in discoverTags.items():
             discoverTagLst.append(
@@ -66,6 +74,9 @@ class PrivateLinkBpipeEndpointDiscover:
             )
         return discoverTagLst
     def _discover_vpcendpoint_helper(self, discover_scope:List[Dict], dryRun:bool = False)->Dict:
+        """
+            call the AWS API to scan interface vpc endpoint
+        """
         response = self.client.describe_vpc_endpoints(
                 DryRun = dryRun,
                 Filters = discover_scope

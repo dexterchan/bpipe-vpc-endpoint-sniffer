@@ -37,6 +37,7 @@ def test_lambda_handler(getSampleInput:IncomingRequest, endpoint_discover:BpipeE
          id = msg["detail"]["id"]
          assert hostname == f"test{cnt}"
          assert id == f"bpipe{cnt}"
+         print (hostname + " " + id)
          cnt = cnt + 1
 
 
