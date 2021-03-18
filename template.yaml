@@ -29,7 +29,7 @@ Resources:
                 - EC2 Instance State-change Notification
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
-          SQS_URL: "https://sqs.us-east-1.amazonaws.com/191791126208/csa-healthcheck-bpipe-endpoint"
+          #SQS_URL: "https://sqs.us-east-1.amazonaws.com/191791126208/csa-healthcheck-bpipe-endpoint"
           SNS_ARN: "arn:aws:sns:us-east-1:192592784707:bpipe-publish-endpoint-to-canary"
       Policies:
         - AWSLambdaVPCAccessExecutionRole

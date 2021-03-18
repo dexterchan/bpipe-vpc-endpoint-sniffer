@@ -17,4 +17,7 @@ def get_json_input() -> IncomingRequest:
     return data
 
 def test_discover_bpipe_endpoints_with_handler(get_json_input:dict):
+    """
+    run lambda handler, requires initialization of aws cli env in your console
+    """
     handler.lambda_handler(get_json_input, None)

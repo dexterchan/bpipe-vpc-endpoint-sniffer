@@ -14,8 +14,8 @@ class BpipeEndPointListWriter(ABC):
             "region": <region>,
             "provider": <cloud vendor>,
             "detail": {
-                <fields derived from input event json message field probe>,
-                <fields from bpipe endpoint: hostname and name tag of vpc endpoint>
+                <fields copied from input event json message field probe>,
+                <fields from bpipe endpoint: hostname -> hostname and name tag of vpc endpoint -> id>
             }
         }
     """

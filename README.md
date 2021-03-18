@@ -28,14 +28,15 @@ After finding the interface endpoints, it will insert vpc address and "Name" tag
 Finally it boostraps the input event of bpipe canary and publish into SNS. SNS will trigger Bpipe Canary lambda for health checking.  
 
 ```
-{
+
+        {
             "region": <region>,
             "provider": <cloud vendor>,
             "detail": {
-                <fields derived from input event json message field probe>,
-                <fields from bpipe endpoint: hostname and name tag of vpc endpoint>
+                <fields copied from input event json message field probe>,
+                <fields from bpipe endpoint: hostname -> hostname and name tag of vpc endpoint -> id>
             }
-}
+        }
 ```
 
 
@@ -53,7 +54,7 @@ sam deploy --guided
 make package
 ```
 
-
+## Run the lambda locally with sam
 Run functions locally and invoke them with the `sam local invoke` command.
 
 ```bash
@@ -67,7 +68,7 @@ Tests are defined in the `tests` folder in this project. Use PIP to install the 
 ```bash
 export PYTHONPATH=$(pwd)/bpipe_endpt_discover
 bpipe-vpc-endpoint-discover$ pip install pytest pytest-mock --user
-bpipe-vpc-endpoint-discover$ python -m pytest tests/ -s
+bpipe-vpc-endpoint-discover$ python -m pytest tests/ -v
 ```
 
 
