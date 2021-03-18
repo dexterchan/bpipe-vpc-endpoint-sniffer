@@ -12,11 +12,18 @@ boto3.set_stream_logger("botocore", logging.ERROR)
 
 @dataclass
 class AWSAdapter():
+    """ container class of service instance
+    """
     bpipeEndPointDiscover: BpipeEndpointDiscover
     bpipeEndPointListWriter: BpipeEndPointListWriter
 
 
 def aws_service_factory(topicARN:str) -> AWSAdapter:
+    """Prepares all the AWS dependencies of the application. Call in your main and pass the relevant services to the core domain of the app.
+
+    Returns:
+        AWSAdapters: the aws dependencies.
+    """
     bpipeEndPointDiscover = PrivateLinkBpipeEndpointDiscover()
     bpipeEndPointListWriter = SNSBpipeEndPointListWriter(topicARN)
     return AWSAdapter(

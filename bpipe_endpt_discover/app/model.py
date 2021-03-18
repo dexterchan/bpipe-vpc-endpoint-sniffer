@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 """
-class BpipeFeature(BaseModel):
-    BusinessUnit: str
-    Environment: str
+Bpipe vpc endpoint (AWS)
+hostname: hostname of vpc endppint
+bpipe_id: Name tag of the vpc endpoint
 """
 
 class BpipeEndpoint(BaseModel):

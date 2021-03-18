@@ -10,6 +10,11 @@ import os
 import uuid
 import copy
 SAMPLE_SIZE = 100
+
+"""
+    Mock Implementation class of BpipeEndpointDiscover
+    Scan all eligible interface VPC endpoint specified by given tag
+"""
 class MockBpipeEndpointDiscover :
     def __init__(self) -> None:
         self.baseField = [
@@ -50,13 +55,18 @@ class MockBpipeEndpointDiscover :
             )
         return bpipeEndptLst
 
+"""
+    Mock Implementation class of BpipeEndPointListWriter with SNS
+    1) boostrap the final message to BPIPE canary
+    2) publish message to fake channel
+"""
 class MockBpipeEndPointListWriter(BpipeEndPointListWriter):
     def __init__(self) -> None:
         self.outputBuffer:List[str] = []
         self.batch_size = 10
         
     @staticmethod
-    def __branchConvert(bpipeLst:List[BpipeEndpoint], n:int):
+    def _batch_convert(bpipeLst:List[Dict], n:int):
         for i in range (0, len(bpipeLst), n):
             sublst = bpipeLst[i:i+n]
             mList = list(map(
@@ -76,7 +86,7 @@ class MockBpipeEndPointListWriter(BpipeEndPointListWriter):
             bpipeEndpointLst 
             )
         sublst = None
-        for sublst in self.__branchConvert(newlst, self.batch_size):
+        for sublst in self._batch_convert(newlst, self.batch_size):
             for msg in sublst:
                 self.outputBuffer.append(json.dumps(msg))
 

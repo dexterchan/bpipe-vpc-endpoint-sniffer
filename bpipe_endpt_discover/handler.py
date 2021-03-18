@@ -14,6 +14,21 @@ awsAdapter = aws_service_factory(SNS_ARN)
 
 
 def lambda_handler(event, context):
+    """entry point of lambda function.
+
+    1) initialize the cloud provider service for 
+    a) BpipeEndpointDiscover - end point searching for interface end point
+    b) bpipeEndPointListWriter - massage endpoint info and publish to data bus
+    2) massage the end point information to Bpipe Canary input
+    3) publish the bpipe canary input event to SNS to trigger Bpipe Canary lambda
+
+    Args:
+        event: the input event from AWS EventBridge scheduler.
+        Format was inherited from AWS Event
+
+    Returns:
+        List of dict of BpipeEndpoint
+    """
     incoming_request = IncomingRequest.from_request(event)
 
     endpointTag = event["discover_tags"]

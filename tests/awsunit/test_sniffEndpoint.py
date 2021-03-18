@@ -8,9 +8,11 @@ import logging
 boto3.set_stream_logger("boto3", logging.ERROR)
 boto3.set_stream_logger("botocore", logging.ERROR)
 
-os.environ["SQS_URL"] = "https://sqs.us-east-1.amazonaws.com/191791126208/csa-healthcheck-bpipe-endpoint"
 os.environ["SNS_ARN"] = "arn:aws:sns:us-east-1:191791126208:bpipe-publish-endpoint-to-canary"
 def test_discover_bpipe_endpoints(getSampleInput:IncomingRequest):
+    """
+    test SNS channel, requires initialization of aws cli env in your console
+    """
     awsAdapter = aws_service_factory(os.environ["SNS_ARN"])
     endpointTag = getSampleInput.discover_tags
     discover:BpipeEndpointDiscover = None

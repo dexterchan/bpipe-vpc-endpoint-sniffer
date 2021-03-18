@@ -5,7 +5,8 @@ from .model import BpipeEndpoint
 
 class BpipeEndpointDiscover(Protocol):
     """
-        Discover all bpipe endpoint in an environment for next processing
+        Interface to discover all bpipe endpoint in an environment for next processing
+        from give tag in event from json message field : "discover_tags"
     """
     def discover_bpipe_endpoints(self, bpipeTags:Dict)->List[BpipeEndpoint]:
         ...
